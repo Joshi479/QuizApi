@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="QuizAppDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_Answer_Choices">
+          <Key>
+            <PropertyRef Name="AnswerId" />
+          </Key>
+          <Property Name="AnswerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Answer" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Categories">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="NumofSubCategories" Type="int" />
+          <Property Name="NumOfQuestions" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Question_Level">
+          <Key>
+            <PropertyRef Name="LevelId" />
+          </Key>
+          <Property Name="LevelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LevelType" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Questions">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Question" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Answer" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LevelId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="SubCategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Sub_Categories">
+          <Key>
+            <PropertyRef Name="SubCategoryId" />
+          </Key>
+          <Property Name="SubCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubCategory" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="NumOfQuestions" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__tbl_Answe__Quest__1920BF5C">
+          <End Role="tbl_Questions" Type="Self.tbl_Questions" Multiplicity="1" />
+          <End Role="tbl_Answer_Choices" Type="Self.tbl_Answer_Choices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Questions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="tbl_Answer_Choices">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Quest__Categ__164452B1">
+          <End Role="tbl_Categories" Type="Self.tbl_Categories" Multiplicity="1" />
+          <End Role="tbl_Questions" Type="Self.tbl_Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Categories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="tbl_Questions">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Quest__Level__15502E78">
+          <End Role="tbl_Question_Level" Type="Self.tbl_Question_Level" Multiplicity="1" />
+          <End Role="tbl_Questions" Type="Self.tbl_Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Question_Level">
+              <PropertyRef Name="LevelId" />
+            </Principal>
+            <Dependent Role="tbl_Questions">
+              <PropertyRef Name="LevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Quest__SubCa__20C1E124">
+          <End Role="tbl_Sub_Categories" Type="Self.tbl_Sub_Categories" Multiplicity="1" />
+          <End Role="tbl_Questions" Type="Self.tbl_Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Sub_Categories">
+              <PropertyRef Name="SubCategoryId" />
+            </Principal>
+            <Dependent Role="tbl_Questions">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Sub_C__Categ__1CF15040">
+          <End Role="tbl_Categories" Type="Self.tbl_Categories" Multiplicity="1" />
+          <End Role="tbl_Sub_Categories" Type="Self.tbl_Sub_Categories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Categories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="tbl_Sub_Categories">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuizAppDBModelStoreContainer">
+          <EntitySet Name="tbl_Answer_Choices" EntityType="Self.tbl_Answer_Choices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Categories" EntityType="Self.tbl_Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Question_Level" EntityType="Self.tbl_Question_Level" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Questions" EntityType="Self.tbl_Questions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Sub_Categories" EntityType="Self.tbl_Sub_Categories" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tbl_Answe__Quest__1920BF5C" Association="Self.FK__tbl_Answe__Quest__1920BF5C">
+            <End Role="tbl_Questions" EntitySet="tbl_Questions" />
+            <End Role="tbl_Answer_Choices" EntitySet="tbl_Answer_Choices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Quest__Categ__164452B1" Association="Self.FK__tbl_Quest__Categ__164452B1">
+            <End Role="tbl_Categories" EntitySet="tbl_Categories" />
+            <End Role="tbl_Questions" EntitySet="tbl_Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Quest__Level__15502E78" Association="Self.FK__tbl_Quest__Level__15502E78">
+            <End Role="tbl_Question_Level" EntitySet="tbl_Question_Level" />
+            <End Role="tbl_Questions" EntitySet="tbl_Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Quest__SubCa__20C1E124" Association="Self.FK__tbl_Quest__SubCa__20C1E124">
+            <End Role="tbl_Sub_Categories" EntitySet="tbl_Sub_Categories" />
+            <End Role="tbl_Questions" EntitySet="tbl_Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Sub_C__Categ__1CF15040" Association="Self.FK__tbl_Sub_C__Categ__1CF15040">
+            <End Role="tbl_Categories" EntitySet="tbl_Categories" />
+            <End Role="tbl_Sub_Categories" EntitySet="tbl_Sub_Categories" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QuizAppDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AnswerChoices">
+          <Key>
+            <PropertyRef Name="AnswerId" />
+          </Key>
+          <Property Name="AnswerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Answer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Questions" Relationship="Self.FK__tbl_Answe__Quest__1920BF5C" FromRole="tbl_Answer_Choices" ToRole="tbl_Questions" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NumofSubCategories" Type="Int32" />
+          <Property Name="NumOfQuestions" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Questions" Relationship="Self.FK__tbl_Quest__Categ__164452B1" FromRole="tbl_Categories" ToRole="tbl_Questions" />
+          <NavigationProperty Name="SubCategories" Relationship="Self.FK__tbl_Sub_C__Categ__1CF15040" FromRole="tbl_Categories" ToRole="tbl_Sub_Categories" />
+        </EntityType>
+        <EntityType Name="QuestionLevels">
+          <Key>
+            <PropertyRef Name="LevelId" />
+          </Key>
+          <Property Name="LevelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LevelType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Questions" Relationship="Self.FK__tbl_Quest__Level__15502E78" FromRole="tbl_Question_Level" ToRole="tbl_Questions" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Question" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Answer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LevelId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="SubCategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AnswerChoices" Relationship="Self.FK__tbl_Answe__Quest__1920BF5C" FromRole="tbl_Questions" ToRole="tbl_Answer_Choices" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK__tbl_Quest__Categ__164452B1" FromRole="tbl_Questions" ToRole="tbl_Categories" />
+          <NavigationProperty Name="QuestionLevels" Relationship="Self.FK__tbl_Quest__Level__15502E78" FromRole="tbl_Questions" ToRole="tbl_Question_Level" />
+          <NavigationProperty Name="SubCategories" Relationship="Self.FK__tbl_Quest__SubCa__20C1E124" FromRole="tbl_Questions" ToRole="tbl_Sub_Categories" />
+        </EntityType>
+        <EntityType Name="SubCategories">
+          <Key>
+            <PropertyRef Name="SubCategoryId" />
+          </Key>
+          <Property Name="SubCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubCategory" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="NumOfQuestions" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK__tbl_Sub_C__Categ__1CF15040" FromRole="tbl_Sub_Categories" ToRole="tbl_Categories" />
+          <NavigationProperty Name="Questions" Relationship="Self.FK__tbl_Quest__SubCa__20C1E124" FromRole="tbl_Sub_Categories" ToRole="tbl_Questions" />
+        </EntityType>
+        <Association Name="FK__tbl_Answe__Quest__1920BF5C">
+          <End Role="tbl_Questions" Type="QuizAppDBModel.Questions" Multiplicity="1" />
+          <End Role="tbl_Answer_Choices" Type="QuizAppDBModel.AnswerChoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Questions">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="tbl_Answer_Choices">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Quest__Categ__164452B1">
+          <End Role="tbl_Categories" Type="QuizAppDBModel.Categories" Multiplicity="1" />
+          <End Role="tbl_Questions" Type="QuizAppDBModel.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Categories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="tbl_Questions">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Sub_C__Categ__1CF15040">
+          <End Role="tbl_Categories" Type="QuizAppDBModel.Categories" Multiplicity="1" />
+          <End Role="tbl_Sub_Categories" Type="QuizAppDBModel.SubCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Categories">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="tbl_Sub_Categories">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Quest__Level__15502E78">
+          <End Role="tbl_Question_Level" Type="QuizAppDBModel.QuestionLevels" Multiplicity="1" />
+          <End Role="tbl_Questions" Type="QuizAppDBModel.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Question_Level">
+              <PropertyRef Name="LevelId" />
+            </Principal>
+            <Dependent Role="tbl_Questions">
+              <PropertyRef Name="LevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tbl_Quest__SubCa__20C1E124">
+          <End Role="tbl_Sub_Categories" Type="QuizAppDBModel.SubCategories" Multiplicity="1" />
+          <End Role="tbl_Questions" Type="QuizAppDBModel.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Sub_Categories">
+              <PropertyRef Name="SubCategoryId" />
+            </Principal>
+            <Dependent Role="tbl_Questions">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuizAppDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AnswerChoices" EntityType="QuizAppDBModel.AnswerChoices" />
+          <EntitySet Name="Categories" EntityType="QuizAppDBModel.Categories" />
+          <EntitySet Name="QuestionLevels" EntityType="QuizAppDBModel.QuestionLevels" />
+          <EntitySet Name="Questions" EntityType="QuizAppDBModel.Questions" />
+          <EntitySet Name="SubCategories" EntityType="QuizAppDBModel.SubCategories" />
+          <AssociationSet Name="FK__tbl_Answe__Quest__1920BF5C" Association="Self.FK__tbl_Answe__Quest__1920BF5C">
+            <End Role="tbl_Questions" EntitySet="Questions" />
+            <End Role="tbl_Answer_Choices" EntitySet="AnswerChoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Quest__Categ__164452B1" Association="Self.FK__tbl_Quest__Categ__164452B1">
+            <End Role="tbl_Categories" EntitySet="Categories" />
+            <End Role="tbl_Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Sub_C__Categ__1CF15040" Association="Self.FK__tbl_Sub_C__Categ__1CF15040">
+            <End Role="tbl_Categories" EntitySet="Categories" />
+            <End Role="tbl_Sub_Categories" EntitySet="SubCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Quest__Level__15502E78" Association="Self.FK__tbl_Quest__Level__15502E78">
+            <End Role="tbl_Question_Level" EntitySet="QuestionLevels" />
+            <End Role="tbl_Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tbl_Quest__SubCa__20C1E124" Association="Self.FK__tbl_Quest__SubCa__20C1E124">
+            <End Role="tbl_Sub_Categories" EntitySet="SubCategories" />
+            <End Role="tbl_Questions" EntitySet="Questions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QuizAppDBModelStoreContainer" CdmEntityContainer="QuizAppDBEntities">
+          <EntitySetMapping Name="AnswerChoices">
+            <EntityTypeMapping TypeName="QuizAppDBModel.AnswerChoices">
+              <MappingFragment StoreEntitySet="tbl_Answer_Choices">
+                <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="QuizAppDBModel.Categories">
+              <MappingFragment StoreEntitySet="tbl_Categories">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="NumofSubCategories" ColumnName="NumofSubCategories" />
+                <ScalarProperty Name="NumOfQuestions" ColumnName="NumOfQuestions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionLevels">
+            <EntityTypeMapping TypeName="QuizAppDBModel.QuestionLevels">
+              <MappingFragment StoreEntitySet="tbl_Question_Level">
+                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
+                <ScalarProperty Name="LevelType" ColumnName="LevelType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="QuizAppDBModel.Questions">
+              <MappingFragment StoreEntitySet="tbl_Questions">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="LevelId" ColumnName="LevelId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubCategories">
+            <EntityTypeMapping TypeName="QuizAppDBModel.SubCategories">
+              <MappingFragment StoreEntitySet="tbl_Sub_Categories">
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+                <ScalarProperty Name="SubCategory" ColumnName="SubCategory" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="NumOfQuestions" ColumnName="NumOfQuestions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
